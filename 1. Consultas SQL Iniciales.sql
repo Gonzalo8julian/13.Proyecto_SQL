@@ -91,8 +91,61 @@ order by
 	payment_date desc
 	limit 1 offset 2;
 
+-- 11. Exclusión de clasificaciones: Encuentra el título de las películas que no sean ni ‘NC-17’ ni ‘G’ en cuanto a clasificación.
+
+select
+	title as "Título",
+	rating as "Clasificación"
+from
+	public.film
+where
+film.rating not in ('NC-17', 'G');
 
 
+-- 12. Promedios de duración por clasificación: Encuentra el promedio de duración de las películas para cada clasificación y muestra la clasificación junto con el promedio.
+select
+	round(avg(length),2) as "Promedio_duración",
+	rating as "Clasificación"
+from
+	public.film
+group by
+	"Clasificación";
+
+--13. **elículas largas: Encuentra el título de todas las películas con una duración mayor a 180 minutos.
+select
+	title as "Título",
+	length as "Duración"
+from
+	public.film
+where
+	film.length > 180;
+
+-- 14. Ingresos totales: ¿Cuánto dinero ha generado en total la empresa?
+select
+	sum(amount) as "Intresos_totales"
+from
+	public.payment;
+
+--15. Clientes con ID alto: Muestra los 10 clientes con mayor valor de ID.
+select 
+	customer_id
+from
+	public.customer
+order by
+	customer_id desc limit 10;
+
+--16. Película específica: Encuentra el nombre y apellido de los actores que aparecen en la película con título ‘Egg Igby’.
+select
+	a.first_name as "Nombre",
+	a.last_name as "Apellido",
+	f.title as "Título"
+from
+	public.film as f
+	join public.film_actor as fa on f.film_id = fa.film_id 
+	join public.actor as a on fa.actor_id = a.actor_id 
+where
+	f.title = 'Egg Igby';
+	
 
 
 
